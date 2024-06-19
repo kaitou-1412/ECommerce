@@ -1,35 +1,24 @@
-const User = require("../models/User");
 const httpStatus = require("http-status");
 const catchAsync = require("../utils/catchAsync");
+const userService = require("../services/user.service");
+const authService = require("../services/auth.service");
 
-const createUser = catchAsync(async (req, res) => {
-  const user = await User.create(req.body);
+const register = catchAsync(async (req, res) => {
+  const user = await userService.createUser(req.body);
   res.status(httpStatus.CREATED).json(user);
+});
+
+const login = catchAsync(async (req, res) => {
+  const { email, password } = req.body;
+  const user = await authService.loginUserWithEmailAndPassword(email, password);
+  res.status(httpStatus.OK).json(user);
 });
 
 // const router = require("express").Router();
 // const User = require("../models/User");
 // const bcrypt = require("bcrypt");
 
-// REGISTER
-// router.post("/register", async (req, res) => {
-//   try {
-//     const salt = await bcrypt.genSalt(10);
-//     const hashedPass = await bcrypt.hash(req.body.password, salt);
-//     const newUser = new User({
-//       username: req.body.username,
-//       email: req.body.email,
-//       password: hashedPass,
-//     });
-
-//     const user = await newUser.save();
-//     res.status(200).json(user);
-//   } catch (err) {
-//     res.status(500).json(err);
-//   }
-// });
-
-// //LOGIN
+// LOGIN
 // router.post("/login", async (req, res) => {
 //   try {
 //     const user = await User.findOne({ username: req.body.username });
@@ -53,5 +42,6 @@ const createUser = catchAsync(async (req, res) => {
 // module.exports = router;
 
 module.exports = {
-  createUser,
+  register,
+  login,
 };
