@@ -1,5 +1,6 @@
 const Joi = require("joi");
 const { password } = require("./custom.validation");
+const { roles } = require("../config/constants");
 
 const register = {
   body: Joi.object().keys({
@@ -9,6 +10,9 @@ const register = {
       first: Joi.string().required(),
       last: Joi.string(),
     }),
+    role: Joi.string()
+      .valid(...Object.values(roles))
+      .required(),
   }),
 };
 

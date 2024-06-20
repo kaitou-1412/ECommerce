@@ -1,13 +1,12 @@
 const mongoose = require("mongoose");
-const { Role } = require("../config/constants");
+const { roles } = require("../config/constants");
 
 const RoleSchema = new mongoose.Schema(
   {
     name: {
       type: String,
       required: true,
-      enum: Object.values(Role),
-      default: Role.CUSTOMER,
+      enum: Object.values(roles),
     },
     permissionIds: [
       {

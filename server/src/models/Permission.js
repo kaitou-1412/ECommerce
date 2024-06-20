@@ -1,11 +1,13 @@
 const mongoose = require("mongoose");
+const { permissions } = require("../config/constants");
 
 const PermissionSchema = new mongoose.Schema(
   {
     name: {
       type: String,
       required: true,
-    }, // e.g., 'view_products', 'create_order', 'manage_categories'
+      enum: Object.values(permissions),
+    },
     description: String,
   },
   { timestamps: true }

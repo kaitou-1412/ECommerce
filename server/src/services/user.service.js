@@ -1,6 +1,7 @@
 const bcrypt = require("bcrypt");
 const httpStatus = require("http-status");
 const User = require("../models/User");
+const Role = require("../models/Role");
 const ApiError = require("../utils/ApiError");
 
 /**
@@ -14,6 +15,8 @@ const createUser = async (userBody) => {
   }
   const salt = await bcrypt.genSalt(10);
   userBody.password = await bcrypt.hash(userBody.password, salt);
+  const role = await Role.findOne({ name: userBody.role });
+  userBody.roleId = role._id;
   return User.create(userBody);
 };
 
